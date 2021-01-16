@@ -9,7 +9,7 @@ namespace NoShieldElitesMod
     [BepInDependency("com.bepis.r2api")]
     [BepInPlugin("com.nan.noshieldelites", "No shield elites", "0.0.1")]
 
-    public class NoShiledElitesPlugin : BaseUnityPlugin
+    public class NoShieldElitesPlugin : BaseUnityPlugin
     {
         public void Awake()
         {
@@ -18,11 +18,15 @@ namespace NoShieldElitesMod
 
         private static void CombatDirectorOnPrepareNewMonsterWave(On.RoR2.CombatDirector.orig_PrepareNewMonsterWave orig, CombatDirector self, DirectorCard monsterCard)
         {
-            float costMultiplier = self.GetFieldValue<float>("baseEliteCostMultiplier");
-            float damageBoostCoefficient = self.GetFieldValue<float>("baseEliteDamageBoostCoefficient");
-            float healthBoostCoefficient = self.GetFieldValue<float>("baseEliteHealthBoostCoefficient");
+            //float costMultiplier = self.GetFieldValue<float>("baseEliteCostMultiplier");
+            //float damageBoostCoefficient = self.GetFieldValue<float>("baseEliteDamageBoostCoefficient");
+            //float healthBoostCoefficient = self.GetFieldValue<float>("baseEliteHealthBoostCoefficient");
 
-            CombatDirector.EliteTierDef[] elDef = {
+            float costMultiplier = 6f;
+            float damageBoostCoefficient = 2f;
+            float healthBoostCoefficient = 4f;
+
+            CombatDirector.EliteTierDef[] eliteTiers = {
                 new CombatDirector.EliteTierDef
                 {
                     costMultiplier = 1f,
@@ -42,7 +46,7 @@ namespace NoShieldElitesMod
                     eliteTypes = new EliteIndex[]
                     {
                         EliteIndex.Fire,
-                        //EliteIndex.Lightning,
+                        EliteIndex.Lightning,
                         EliteIndex.Ice
                     },
                     isAvailable = new Func<bool>(NotEliteOnlyArtifactActive)
@@ -58,7 +62,7 @@ namespace NoShieldElitesMod
                         EliteIndex.Lightning,
                         EliteIndex.Ice
                     },
-                    isAvailable = new Func<bool>(NotEliteOnlyArtifactActive)
+                    isAvailable = new Func<bool>(EliteOnlyArtifactActive)
                 },
                 new CombatDirector.EliteTierDef
                 {
@@ -74,9 +78,14 @@ namespace NoShieldElitesMod
                 }
             };
 
-            self.SetFieldValue<CombatDirector.EliteTierDef[]>("eliteTiers", elDef);
+            self.SetFieldValue<CombatDirector.EliteTierDef[]>("eliteTiers", eliteTiers);
 
             orig(self, monsterCard);
+        }
+
+        private static bool EliteOnlyArtifactActive()
+        {
+            return RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.eliteOnlyArtifactDef);
         }
 
         private static bool NotEliteOnlyArtifactActive()
