@@ -9,6 +9,7 @@ namespace ArtifactOfImpatience
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInPlugin("com.nan.artifactofimpatience", "Artifact of Impatience", "0.0.1")]
+    [R2APISubmoduleDependency(nameof(LoadoutAPI))]
 
     public class ArtifactOfImpatiencePlugin : BaseUnityPlugin
     {
@@ -18,7 +19,7 @@ namespace ArtifactOfImpatience
         {
             Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
             Artifact.nameToken = "Artifact of Impatience";
-            Artifact.descriptionToken = "Removes lighting elites";
+            Artifact.descriptionToken = "Removes lighting elites.";
             Artifact.smallIconDeselectedSprite = LoadoutAPI.CreateSkinIcon(Color.white, Color.white, Color.white, Color.white);
             Artifact.smallIconSelectedSprite = LoadoutAPI.CreateSkinIcon(Color.black, Color.blue, Color.black, Color.blue);
             
