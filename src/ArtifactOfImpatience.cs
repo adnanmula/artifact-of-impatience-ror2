@@ -63,7 +63,7 @@ namespace ArtifactOfImpatience
             Texture2D texture = new Texture2D(128, 128, TextureFormat.RGBA32, false);
             texture.LoadImage(resource, false);
 
-            return Sprite.Create(texture, new Rect(), new Vector2());
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)); ;
         }
     }
 }

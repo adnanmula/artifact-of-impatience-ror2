@@ -1,7 +1,11 @@
-# Artifact of Impatience - Risk of rain 2 Mod
+# Artifact of Impatience
+
+## Description
 
 Adds an artifact that removes shield (lighting) elites.
 
-## Dependencies
+## Changelog
 
-unzip https://github.com/harbingerofme/RoR2Libs/archive/master.zip in /libs
+### v0.0.1
+
+* Initial release
