@@ -1,6 +1,5 @@
 ﻿using System;
 using BepInEx;
-using R2API;
 using R2API.Utils;
 using RoR2;
 using UnityEngine;
@@ -8,8 +7,8 @@ using UnityEngine;
 namespace ArtifactOfImpatience
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.nan.artifactofimpatience", "Artifact of Impatience", "0.0.1")]
-    [R2APISubmoduleDependency(nameof(LoadoutAPI))]
+    [BepInPlugin("com.adnanmula.artifactofimpatience", "Artifact of Impatience", "0.0.1")]
+    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
     public class ArtifactOfImpatiencePlugin : BaseUnityPlugin
     {
@@ -20,11 +19,10 @@ namespace ArtifactOfImpatience
             Artifact = ScriptableObject.CreateInstance<ArtifactDef>();
             Artifact.nameToken = "Artifact of Impatience";
             Artifact.descriptionToken = "Removes lighting elites.";
-            Artifact.smallIconDeselectedSprite = LoadoutAPI.CreateSkinIcon(Color.white, Color.white, Color.white, Color.white);
-            Artifact.smallIconSelectedSprite = LoadoutAPI.CreateSkinIcon(Color.black, Color.blue, Color.black, Color.blue);
-            
-            ArtifactCatalog.getAdditionalEntries += (list) =>
-            {
+            Artifact.smallIconSelectedSprite = LoadSprite(Properties.Resources.artifact_enabled);
+            Artifact.smallIconDeselectedSprite = LoadSprite(Properties.Resources.artifact_disabled);
+
+            ArtifactCatalog.getAdditionalEntries += (list) => {
                 list.Add(Artifact);
             };
 
@@ -53,6 +51,19 @@ namespace ArtifactOfImpatience
             self.SetFieldValue("eliteTiers", eliteTiers);
 
             orig(self, monsterCard);
+        }
+
+        private static Sprite LoadSprite(Byte[] resource)
+        {
+            if (resource == null)
+            {
+                throw new ArgumentNullException(nameof(resource));
+            }
+
+            Texture2D texture = new Texture2D(128, 128, TextureFormat.RGBA32, false);
+            texture.LoadImage(resource, false);
+
+            return Sprite.Create(texture, new Rect(), new Vector2());
         }
     }
 }

@@ -1,0 +1,10 @@
+{
+    "name": "ArtifactOfImpatience",
+    "version_number": "0.0.1",
+    "website_url": "https://github.com/adnanmula/artifact-of-impatience-ror2",
+    "description": "Adds an artifact that removes shield (lighting) elites.",
+    "dependencies": [
+        "bbepis-BepInExPack-5.3.1",
+        "tristanmcpherson-R2API-2.5.14"
+    ]
+}
